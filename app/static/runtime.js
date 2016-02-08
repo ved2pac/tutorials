@@ -20,8 +20,13 @@ function createInstance(user, project, version, onloadCB) {
   oReq.setRequestHeader('X-Craft-Ai-App-Id', TUTO_APP_ID);
   oReq.setRequestHeader('X-Craft-Ai-App-Secret', TUTO_APP_SECRET);
   oReq.onload = function() {
-    instanceID = JSON.parse(oReq.responseText).instance.instance_id;
-    onloadCB(instanceID);
+    if( oReq.status===200) {
+      instanceID = JSON.parse(oReq.responseText).instance.instance_id;
+      onloadCB(instanceID);
+    }
+    else {
+      alert('error while creating instance');  
+    }
   };
   oReq.onerror = function() {
     alert('error while creating instance');
@@ -50,7 +55,12 @@ function createAgent(behavior, knowledge, onloadCB, onErrorCB) {
   oReq.setRequestHeader('X-Craft-Ai-App-Id', TUTO_APP_ID);
   oReq.setRequestHeader('X-Craft-Ai-App-Secret', TUTO_APP_SECRET);
   oReq.onload = function() {
-    onloadCB();
+    if( oReq.status===200) {
+      onloadCB();
+    }
+    else {
+      onErrorCB();
+    }
   };
   oReq.onerror = function() {
     onErrorCB();
